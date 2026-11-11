@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "garmin": {
+      "command": "python3",
+      "args": ["-m", "garmin_mcp"]
+    }
+  }
+}

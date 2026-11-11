@@ -1,0 +1,20 @@
+# Credentials: Garmin API key + cached bearer token
+.garmin/
+*api-key*
+.env
+.env.*
+
+# Personal data never leaves this machine
+blocks.json
+blocks.json.bak
+cache/
+report/
+*.fit
+*.fit.gz
+*.zip
+
+# Local clutter
+.shots/
+.venv/
+__pycache__/
+.DS_Store

@@ -1,0 +1,39 @@
+{
+  "athlete": "Alex",
+  "timezone": "America/New_York",
+  "window": [
+    "first",
+    "today"
+  ],
+  "blocks": [
+    {
+      "key": "B1",
+      "name": "Block 1 \u00b7 Spring half",
+      "start": "2025-02-03",
+      "end": "2025-04-27",
+      "race": {
+        "name": "Spring Half",
+        "date": "2025-04-27",
+        "distance_mi": 13.109
+      }
+    },
+    {
+      "key": "B2",
+      "name": "Block 2 \u00b7 Fall marathon",
+      "start": "2025-06-30",
+      "end": "2025-11-02",
+      "race": {
+        "name": "Fall Marathon",
+        "date": "2025-11-02",
+        "distance_mi": 26.219
+      }
+    }
+  ],
+  "races": [
+    {
+      "name": "Summer 10K",
+      "date": "2025-08-16",
+      "distance_mi": 6.214
+    }
+  ]
+}

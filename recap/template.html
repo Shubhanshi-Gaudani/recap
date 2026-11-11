@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running Recap</title>
+<style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb; --surface-2: #f3f2ef; --cell-0: #ebeae6; --grid: #e4e3df;
+  --ink: #0b0b0b; --ink-2: #52514e; --ink-3: #8a8984;
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --c5: #e87ba4; --other: #a3a29d;
+  --s1: #cde2fb; --s2: #9ec5f4; --s3: #6da7ec; --s4: #3987e5; --s5: #256abf; --s6: #184f95;
+  --warn-wash: rgba(227, 73, 72, .10); --warn: #c93a39; --good: #14875c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --surface-2: #232321; --cell-0: #2b2b29; --grid: #33332f;
+    --ink: #ffffff; --ink-2: #c3c2b7; --ink-3: #8f8e86;
+    --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --other: #6f6e69;
+    --s1: #163f73; --s2: #184f95; --s3: #1c5cab; --s4: #2a78d6; --s5: #5598e7; --s6: #86b6ef;
+    --warn-wash: rgba(230, 103, 103, .14); --warn: #e66767; --good: #3fb27f;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --surface-2: #232321; --cell-0: #2b2b29; --grid: #33332f;
+  --ink: #ffffff; --ink-2: #c3c2b7; --ink-3: #8f8e86;
+  --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --other: #6f6e69;
+  --s1: #163f73; --s2: #184f95; --s3: #1c5cab; --s4: #2a78d6; --s5: #5598e7; --s6: #86b6ef;
+  --warn-wash: rgba(230, 103, 103, .14); --warn: #e66767; --good: #3fb27f;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--surface); color: var(--ink);
+  font: 15px/1.5 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 40px 16px 80px; }
+header.hero { padding: 24px 0 8px; }
+.eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.05; margin: 8px 0 12px; font-weight: 650; letter-spacing: -.02em; }
+h2 { font-size: 22px; line-height: 1.25; margin: 0 0 6px; font-weight: 620; letter-spacing: -.01em; }
+.lede { color: var(--ink-2); max-width: 640px; font-size: 17px; }
+section { margin-top: 64px; }
+.sub { color: var(--ink-2); margin: 0 0 18px; max-width: 680px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 28px; }
+.tile { background: var(--surface-2); border-radius: 10px; padding: 14px 16px; }
+.tile .label { font-size: 13px; color: var(--ink-2); }
+.tile .value { font-size: 28px; font-weight: 640; letter-spacing: -.01em; }
+.tile .delta { font-size: 12px; color: var(--ink-3); }
+.racehead h3 { font-size: 26px; margin: 8px 0 2px; letter-spacing: -.01em; }
+.racehead .meta { color: var(--ink-2); font-size: 14px; }
+.badge { font-size: 12px; font-weight: 600; vertical-align: middle; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); margin-left: 6px; }
+h4 { font-size: 15px; margin: 26px 0 8px; font-weight: 620; }
+.nightrow { display: grid; grid-template-columns: 110px minmax(80px, 1fr) 150px; align-items: center; gap: 10px; padding: 5px 0; font-size: 14px; }
+.nightrow .nl { color: var(--ink-2); }
+.nightrow .nv span { color: var(--ink-3); font-size: 12px; }
+.fine { font-size: 12px; color: var(--ink-3); margin: 8px 0 0; }
+.facts { display: grid; gap: 8px; margin-top: 12px; }
+.fact { display: flex; gap: 10px; align-items: baseline; font-size: 13px; color: var(--ink-2); }
+.fact b { font-size: 20px; color: var(--ink); min-width: 64px; font-weight: 640; }
+.reptiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 16px; }
+.reptile { background: var(--surface-2); border-radius: 10px; padding: 12px 14px; }
+.reptile .d { font-size: 13px; color: var(--ink-2); }
+.reptile .v { font-size: 24px; font-weight: 640; }
+.reptile .c { font-size: 12px; font-weight: 600; }
+.reptile .b { font-size: 12px; color: var(--ink-3); }
+.repchips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.repchip { display: grid; gap: 2px; background: var(--surface-2); border-radius: 8px; padding: 6px 10px; min-width: 64px; font-size: 12px; color: var(--ink-3); }
+.repchip b { font-size: 15px; color: var(--ink); }
+@media (max-width: 560px) { .nightrow { grid-template-columns: 90px 1fr; } .nightrow .nv { grid-column: 1 / -1; } }
+.chart { width: 100%; position: relative; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--ink-2); margin: 0 0 10px; }
+.legend .key { display: inline-flex; align-items: center; gap: 6px; }
+.legend .sw { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.legend .ln { width: 16px; height: 2px; border-radius: 2px; display: inline-block; }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+.filters button { font: inherit; font-size: 13px; color: var(--ink-2); background: transparent;
+  border: 1px solid var(--grid); border-radius: 999px; padding: 4px 12px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px; }
+.filters button[aria-pressed="true"] { color: var(--ink); background: var(--surface-2); border-color: var(--ink-3); }
+.takeaway { border-left: 2px solid var(--grid); padding: 2px 0 2px 14px; color: var(--ink-2); margin-top: 16px; max-width: 680px; }
+.takeaway b { color: var(--ink); font-weight: 600; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 14px; }
+.thumb { background: var(--surface-2); border-radius: 10px; padding: 8px 10px 10px; font-size: 12px; color: var(--ink-2); }
+.thumb b { color: var(--ink); font-weight: 600; display: block; font-size: 13px; }
+details { margin-top: 12px; font-size: 13px; color: var(--ink-2); }
+summary { cursor: pointer; color: var(--ink-3); }
+table { border-collapse: collapse; width: 100%; margin-top: 8px; font-variant-numeric: tabular-nums; }
+th, td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font-weight: 600; color: var(--ink-2); }
+.table-wrap { overflow-x: auto; }
+.compare td.win { color: var(--ink); font-weight: 600; }
+.axis text, .lbl { fill: var(--ink-3); font-size: 11px; }
+.lbl-2 { fill: var(--ink-2); font-size: 12px; }
+.lbl-1 { fill: var(--ink); font-size: 12px; font-weight: 600; }
+.gridline { stroke: var(--grid); stroke-width: 1; }
+#tip { position: fixed; pointer-events: none; z-index: 10; background: var(--ink); color: var(--surface);
+  font-size: 12px; line-height: 1.4; padding: 8px 10px; border-radius: 8px; max-width: 260px;
+  opacity: 0; transition: opacity .08s; }
+#tip b { font-weight: 600; }
+.theme-toggle { position: fixed; top: 12px; right: 12px; font: inherit; font-size: 12px; color: var(--ink-2);
+  background: var(--surface-2); border: 1px solid var(--grid); border-radius: 999px; padding: 4px 10px; cursor: pointer; }
+.empty { background: var(--surface-2); border-radius: 10px; padding: 20px; color: var(--ink-2); }
+code { font-size: 13px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+footer { margin-top: 72px; color: var(--ink-3); font-size: 12px; }
+@media (forced-colors: active) { .chart path, .chart rect, .chart circle { forced-color-adjust: auto; } }
+</style>
+</head>
+<body>
+<button class="theme-toggle" id="theme">Theme</button>
+<main id="app"></main>
+<div id="tip" role="tooltip"></div>
+<script>const DATA=/*__DATA__*/null;</script>
+<script>
+"use strict";
+const M = DATA.metrics;
+const NS = "http://www.w3.org/2000/svg";
+const app = document.getElementById("app");
+const tip = document.getElementById("tip");
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+// Periods take categorical slots in order (validated palette, fixed order); gaps between blocks are gray.
+const PCOL = Object.fromEntries(DATA.periods.map((p, i) => [p.key, `var(--c${Math.min(i + 1, 5)})`]));
+const pname = k => (DATA.periods.find(p => p.key === k) || {}).name || "Between blocks";
+const pcol = k => PCOL[k] || "var(--other)";
+
+// ---------- tiny helpers ----------
+function h(tag, attrs = {}, parent, html) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (html != null) e.innerHTML = html;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function s(tag, attrs = {}, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function text(parent, x, y, str, cls = "lbl", anchor = "start", extra = {}) {
+  const t = s("text", { x, y, class: cls, "text-anchor": anchor, ...extra }, parent);
+  t.textContent = str;
+  return t;
+}
+const lin = (d0, d1, r0, r1) => v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+function niceTicks(lo, hi, n = 4) {
+  const step0 = (hi - lo) / n, mag = 10 ** Math.floor(Math.log10(step0));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(m => m >= step0);
+  const out = [];
+  for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(6));
+  return out;
+}
+const D = s => new Date(s + "T12:00:00");
+const fmtD = s => D(s).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+const fmtDY = s => D(s).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+const pace = sec => { sec = Math.round(sec); return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`; };
+const esc = str => String(str).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function showTip(ev, html) {
+  tip.innerHTML = html; tip.style.opacity = 1;
+  const pad = 14, w = tip.offsetWidth, hh = tip.offsetHeight;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  if (x + w > innerWidth - 8) x = ev.clientX - w - pad;
+  if (y + hh > innerHeight - 8) y = ev.clientY - hh - pad;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+const hideTip = () => { tip.style.opacity = 0; };
+function hover(el, html) {
+  el.addEventListener("pointermove", ev => showTip(ev, typeof html === "function" ? html() : html));
+  el.addEventListener("pointerleave", hideTip);
+}
+function section(title, sub) {
+  const sec = h("section", {}, app);
+  h("h2", {}, sec, title);
+  if (sub) h("p", { class: "sub" }, sec, sub);
+  return sec;
+}
+function legend(parent, items) {
+  const l = h("div", { class: "legend" });
+  const chart = parent.querySelector(":scope > .chart");
+  chart ? parent.insertBefore(l, chart) : parent.appendChild(l);
+  for (const it of items)
+    h("span", { class: "key" }, l, `<span class="${it.line ? "ln" : "sw"}" style="background:${it.color}"></span>${esc(it.label)}`);
+  return l;
+}
+function svgIn(parent, w, hgt, label) {
+  const wrap = h("div", { class: "chart" }, parent);
+  const svg = s("svg", { viewBox: `0 0 ${w} ${hgt}`, role: "img", "aria-label": label }, wrap);
+  return svg;
+}
+function yAxis(svg, ticks, y, x0, x1, fmt = v => v, labelLeft = true) {
+  const g = s("g", { class: "axis" }, svg);
+  for (const t of ticks) {
+    s("line", { x1: x0, x2: x1, y1: y(t), y2: y(t), class: "gridline" }, g);
+    text(g, labelLeft ? x0 - 6 : x1 + 6, y(t) + 4, fmt(t), "lbl", labelLeft ? "end" : "start");
+  }
+}
+function table(parent, head, rows, summaryText = "Show the data") {
+  const d = h("details", {}, parent);
+  h("summary", {}, d, summaryText);
+  const wrap = h("div", { class: "table-wrap" }, d);
+  const t = h("table", {}, wrap);
+  h("tr", {}, h("thead", {}, t), head.map(x => `<th>${esc(x)}</th>`).join(""));
+  const tb = h("tbody", {}, t);
+  for (const r of rows) h("tr", {}, tb, r.map(x => `<td>${esc(x)}</td>`).join(""));
+}
+
+// ---------- derived numbers used in the copy ----------
+const B = Object.fromEntries(M.blocks.map(b => [b.key, b]));
+const race = k => M.races.find(r => r.block === k);
+const goals = M.races.filter(r => r.block !== "tuneup");
+const isMara = r => r.distance_mi > 20, isHalf = r => Math.abs(r.distance_mi - 13.109) < .2;
+const marathons = goals.filter(isMara);
+const mara = marathons[marathons.length - 1], prevMara = marathons[marathons.length - 2];
+const toSec = t => t.split(":").reduce((a, v) => a * 60 + +v, 0);
+const shortT = t => t.replace(/^0:/, "").replace(/:\d\d$/, m => toSec(t) >= 3600 ? m : m); // h:mm:ss stays readable
+const hms = sec => { const neg = sec < 0; sec = Math.abs(Math.round(sec)); const hh = Math.floor(sec / 3600), mm = Math.floor(sec % 3600 / 60), ss = sec % 60; return `${neg ? "−" : ""}${hh ? hh + ":" + String(mm).padStart(2, "0") : mm}:${String(ss).padStart(2, "0")}`; };
+// The half right before the latest marathon, and what it "predicted" (Riegel).
+const halfBefore = mara && goals.filter(r => isHalf(r) && r.date < mara.date).sort((a, b) => a.date.localeCompare(b.date)).pop();
+const beatBy = halfBefore ? Math.round((toSec(halfBefore.marathon_equiv) - mara.seconds) / 60) : null;
+const shortName = p => (p.name.split(" · ")[1] || p.name);
+const efFirst = M.efficiency[0], efLast = M.efficiency[M.efficiency.length - 1];
+const efGain = efFirst && efLast !== efFirst ? Math.round(100 * (efLast.ef / efFirst.ef - 1)) : null;
+const signed = n => `${n >= 0 ? "+" : ""}${n}`;
+const monthName = m => new Date(m + "-15").toLocaleDateString("en-US", { month: "short", year: "numeric" });
+
+// ================= HERO =================
+const hero = h("header", { class: "hero" }, app);
+h("div", { class: "eyebrow" }, hero, `${fmtDY(DATA.window[0])} – ${fmtDY(DATA.window[1])} · from Garmin`);
+h("h1", {}, hero, DATA.athlete ? `${esc(DATA.athlete)}’s running recap` : "Running recap");
+const nBlocks = M.blocks.filter(b => b.key !== "Post").length;
+const plural = (n, one, many) => `${n.toLocaleString()} ${n === 1 ? one : many || one + "s"}`;
+const K = DATA.kinds || {};
+h("p", { class: "lede" }, hero,
+  `${plural(M.totals.runs, "run")}` + (nBlocks ? ` across ${plural(nBlocks, "training block")}` : "") +
+  (goals.length ? `, building to ${goals.map(r => esc(r.name)).join(", ").replace(/, ([^,]*)$/, " and $1")}` : "") + ". " +
+  [K.intervals && plural(K.intervals, "interval session"), K.tempo && plural(K.tempo, "tempo"), K.long && plural(K.long, "long run"), K.race && plural(K.race, "race")].filter(Boolean).join(", ").replace(/, ([^,]*)$/, " and $1") +
+  (K.intervals || K.tempo || K.long ? ", all read from your laps." : ""));
+const tiles = h("div", { class: "tiles" }, hero);
+for (const [label, value, delta] of [
+  ["Miles run", M.totals.miles.toLocaleString(), `${M.totals.runs} runs`],
+  ["Hours on feet", M.totals.hours, `${(M.totals.hours / ((D(DATA.window[1]) - D(DATA.window[0])) / 6048e5)).toFixed(1)} h a week`],
+  mara && [esc(mara.name), mara.time, prevMara ? `${hms(mara.seconds - prevMara.seconds)} vs ${esc(prevMara.name)}` : `${mara.pace}/mi · ${signed(mara.split_drift_pct)}% 2nd half`],
+  beatBy > 0 && ["Beat your half's prediction by", `${beatBy} min`, `${esc(halfBefore.name)} predicted ${halfBefore.marathon_equiv}`],
+  efGain != null && ["Aerobic efficiency", `${signed(efGain)}%`, `${monthName(efFirst.month)} → ${monthName(efLast.month)}`],
+].filter(Boolean)) h("div", { class: "tile" }, tiles, `<div class="label">${label}</div><div class="value">${value}</div><div class="delta">${delta}</div>`);
+
+// ================= 1. CALENDAR =================
+(() => {
+  const sec = section("Every day, one square",
+    "Each square is a day, shaded by miles run. The bars above mark the training blocks; ringed squares are race days.");
+  const days = Object.entries(DATA.days);
+  const first = D(days[0][0]);
+  const offset = (first.getDay() + 6) % 7; // Monday-first rows
+  const cols = Math.ceil((days.length + offset) / 7);
+  const c = 12, g = 2, left = 28, top = 34;
+  const W = left + cols * (c + g) + 4, H = top + 7 * (c + g) + 30;
+  const svg = svgIn(sec, W, H, "Calendar heatmap of daily running miles");
+  const bins = [0.01, 3.5, 6.5, 9.5, 13.1];
+  const shade = mi => mi <= 0 ? "var(--cell-0)" : ["var(--s2)", "var(--s3)", "var(--s4)", "var(--s5)", "var(--s6)"][bins.filter(b => mi >= b).length - 1];
+  ["Mon", "", "Wed", "", "Fri", "", "Sun"].forEach((d, i) => d && text(svg, left - 6, top + i * (c + g) + c - 2, d, "lbl", "end"));
+  const races = new Set(M.races.map(r => r.date));
+  let lastMonth = -1;
+  days.forEach(([date, v], i) => {
+    const k = i + offset, col = Math.floor(k / 7), row = k % 7;
+    const x = left + col * (c + g), y = top + row * (c + g);
+    const dd = D(date);
+    if (dd.getDate() <= 7 && row === 0 || (i === 0)) {
+      if (dd.getMonth() !== lastMonth) { text(svg, x, top - 22, dd.toLocaleDateString("en-US", { month: "short" })); lastMonth = dd.getMonth(); }
+    }
+    const r = s("rect", { x, y, width: c, height: c, rx: 3, fill: shade(v.mi) }, svg);
+    if (races.has(date)) s("rect", { x: x - 1.5, y: y - 1.5, width: c + 3, height: c + 3, rx: 4, fill: "none", stroke: "var(--ink)", "stroke-width": 1.5 }, svg);
+    hover(r, `<b>${fmtDY(date)}</b><br>${v.mi ? v.mi.toFixed(1) + " mi" : "No run"}${v.runs.length ? "<br>" + v.runs.map(esc).join("<br>") : ""}${v.other.length ? "<br><span style='opacity:.7'>+ " + esc(v.other.join(", ")) + "</span>" : ""}`);
+  });
+  // Block bars
+  for (const p of DATA.periods.filter(p => p.key !== "Post")) {
+    const i0 = days.findIndex(d => d[0] >= p.start), i1 = days.findIndex(d => d[0] > p.end) - 1;
+    const x0 = left + Math.floor((i0 + offset) / 7) * (c + g), x1 = left + Math.floor(((i1 < 0 ? days.length - 1 : i1) + offset) / 7) * (c + g) + c;
+    s("rect", { x: x0, y: top - 12, width: x1 - x0, height: 4, rx: 2, fill: pcol(p.key) }, svg);
+    text(svg, x0, top - 16 + 0, "", "lbl");
+  }
+  // Legend row
+  const lg = s("g", {}, svg), ly = H - 12;
+  text(lg, left, ly, "Less", "lbl", "start");
+  ["var(--cell-0)", "var(--s2)", "var(--s3)", "var(--s4)", "var(--s5)", "var(--s6)"].forEach((f, i) => s("rect", { x: left + 32 + i * 15, y: ly - 10, width: c, height: c, rx: 3, fill: f }, lg));
+  text(lg, left + 32 + 6 * 15 + 4, ly, "13+ mi", "lbl");
+  legend(sec, DATA.periods.filter(p => p.key !== "Post").map(p => ({ label: p.name, color: pcol(p.key), line: true })));
+  const active = days.filter(d => d[1].mi > 0).length;
+  const streak = (() => { let best = 0, cur = 0; for (const [, v] of days) { cur = (v.mi || v.other.length) ? cur + 1 : 0; best = Math.max(best, cur); } return best; })();
+  h("p", { class: "takeaway" }, sec, `<b>You ran on ${active} of ${days.length} days</b> (${Math.round(100 * active / days.length)}%). Your longest streak of days with any training was ${streak}.`);
+})();
+
+// ================= 2. BLOCKS ALIGNED =================
+(() => {
+  if (!DATA.aligned.length) return;
+  const mb = marathons.map(r => B[r.block]).filter(Boolean);
+  const [mA, mZ] = [mb[mb.length - 2], mb[mb.length - 1]];
+  const sec = section(mA ? `Your marathon builds: ${mA.avg_week} → ${mZ.avg_week} miles a week` : "The build into race day",
+    "Weekly miles in each block, counted back from its race day. Hover a dot for the week's long run.");
+  const series = DATA.aligned;
+  const minW = Math.min(...series.flatMap(s => s.weeks.map(w => w.w)));
+  const maxMi = Math.max(...series.flatMap(s => s.weeks.map(w => w.mi)));
+  const W = 900, H = 320, L = 40, R = 150, T = 16, Bm = 34;
+  const svg = svgIn(sec, W, H, "Weekly mileage by weeks before race, every block");
+  const x = lin(minW, 0, L, W - R), y = lin(0, Math.ceil(maxMi / 10) * 10, H - Bm, T);
+  yAxis(svg, niceTicks(0, Math.ceil(maxMi / 10) * 10, 5), y, L, W - R);
+  for (let w = 0; w >= minW; w -= 2) text(svg, x(w), H - Bm + 18, w === 0 ? "Race week" : `${-w}`, "lbl", "middle");
+  text(svg, L, H - 2, "weeks before race", "lbl");
+  legend(sec, series.map(s => ({ label: s.name, color: pcol(s.key), line: true })));
+  for (const sr of series) {
+    const col = pcol(sr.key);
+    const d = sr.weeks.map((w, i) => `${i ? "L" : "M"}${x(w.w)},${y(w.mi)}`).join("");
+    s("path", { d: sr.weeks.map((w, i) => `${i ? "L" : "M"}${x(w.w)},${y(w.mi)}`).join("") + `L${x(0)},${y(0)}L${x(sr.weeks[0].w)},${y(0)}Z`, fill: col, opacity: .08 }, svg);
+    s("path", { d, fill: "none", stroke: col, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+    for (const w of sr.weeks) {
+      const dot = s("circle", { cx: x(w.w), cy: y(w.mi), r: 4, fill: col, stroke: "var(--surface)", "stroke-width": 2 }, svg);
+      const hit = s("circle", { cx: x(w.w), cy: y(w.mi), r: 12, fill: "transparent" }, svg);
+      hover(hit, `<b>${esc(sr.name)}</b><br>Week ending ${fmtDY(w.end)}<br>${w.mi} mi · long run ${w.long} mi`);
+    }
+    const last = sr.weeks[sr.weeks.length - 2] || sr.weeks[0];
+    const pk = sr.weeks.reduce((a, b) => b.mi > a.mi ? b : a);
+    text(svg, x(pk.w), y(pk.mi) - 10, `${pk.mi} mi`, "lbl-2", "middle");
+  }
+  // end labels with leader lines
+  series.forEach((sr, i) => {
+    const b = B[sr.key];
+    const ly = T + 22 + i * Math.min(56, (H - Bm - T - 20) / series.length);
+    s("line", { x1: W - R + 12, x2: W - R + 20, y1: ly - 4, y2: ly - 4, stroke: pcol(sr.key), "stroke-width": 2 }, svg);
+    text(svg, W - R + 26, ly, shortName(sr), "lbl-1");
+    text(svg, W - R + 26, ly + 16, `${b.avg_week} mi/wk avg`, "lbl");
+    text(svg, W - R + 26, ly + 30, `${b.long_runs_12mi} runs of 12+ mi`, "lbl");
+  });
+  // comparison table
+  const rows = [
+    ["Weeks", "weeks", ""], ["Average week", "avg_week", " mi"], ["Peak week", "peak_week", " mi"],
+    ["Runs per week", "runs_per_week", ""], ["Runs of 12+ mi", "long_runs_12mi", ""], ["Longest run", "longest", " mi"],
+    ["Strength sessions / wk", "strength_per_week", ""], ["Cross-training / wk", "cross_per_week", ""],
+    ["Median easy-run HR", "median_easy_hr", " bpm"], ["Average pace", "pace", "/mi"],
+  ];
+  const wrap = h("div", { class: "table-wrap" }, sec);
+  const t = h("table", { class: "compare" }, wrap);
+  h("tr", {}, h("thead", {}, t), `<th></th>${M.blocks.map(b => `<th><span class="sw" style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${pcol(b.key)};margin-right:6px"></span>${esc(b.name)}</th>`).join("")}`);
+  const tb = h("tbody", {}, t);
+  for (const [label, k, unit] of rows) h("tr", {}, tb, `<td>${label}</td>${M.blocks.map(b => `<td>${b[k] ?? "–"}${b[k] != null ? unit : ""}</td>`).join("")}`);
+  if (mA) h("p", { class: "takeaway" }, sec, `<b>${esc(shortName(mZ))} averaged ${mZ.avg_week} mi a week against ${mA.avg_week} for ${esc(shortName(mA))}</b>, peaking at ${mZ.peak_week} vs ${mA.peak_week}, with ${mZ.long_runs_12mi} runs of 12+ miles vs ${mA.long_runs_12mi}. Runs per week went ${mA.runs_per_week} → ${mZ.runs_per_week}.` + (beatBy != null ? ` Your ${esc(halfBefore.name)} predicted a ${halfBefore.marathon_equiv} marathon; you ran ${mara.time}.` : ""));
+})();
+
+// ================= 3. ROUTES =================
+(() => {
+  const sec = section("Every run, drawn on top of each other",
+    "GPS tracks from the year, coloured by block. Hover a line to see the run; filter by block.");
+  const home = DATA.routes.filter(r => r.home), away = DATA.routes.filter(r => !r.home);
+  if (!home.length) { h("div", { class: "empty" }, sec, "No GPS tracks found."); return; }
+  const pts = home.flatMap(r => r.p);
+  const q = (arr, p) => { const a = [...arr].sort((m, n) => m - n); return a[Math.floor(p * (a.length - 1))]; };
+  const xs = pts.map(p => p[0]), ys = pts.map(p => p[1]);
+  // Full extent: "home" runs are already within 40 km, so nothing far-flung gets in.
+  const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+  const k = Math.cos((y0 + y1) / 2 * Math.PI / 180);
+  const W = 900, pad = 24;
+  const sx = (W - 2 * pad) / ((x1 - x0) * k);
+  const H = Math.min(1100, Math.max(320, (y1 - y0) * sx + 2 * pad));
+  const scale = Math.min(sx, (H - 2 * pad) / (y1 - y0));
+  const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  const P = ([lon, lat]) => `${(W / 2 + (lon - cx) * k * scale).toFixed(1)},${(H / 2 - (lat - cy) * scale).toFixed(1)}`;
+  const keys = DATA.periods.map(p => p.key).concat([null]);
+  const state = new Set(keys);
+  const filt = h("div", { class: "filters" }, sec);
+  const btns = keys.map(kk => {
+    const b = h("button", { "aria-pressed": "true" }, filt, `<span class="ln" style="width:12px;height:2px;border-radius:2px;display:inline-block;background:${pcol(kk)}"></span>${kk ? esc(pname(kk)) : "Between blocks"}`);
+    b.onclick = () => { state.has(kk) ? state.delete(kk) : state.add(kk); b.setAttribute("aria-pressed", state.has(kk)); draw(); };
+    return b;
+  });
+  const svg = svgIn(sec, W, H, "Map of all GPS run tracks");
+  s("rect", { x: 0, y: 0, width: W, height: H, rx: 12, fill: "var(--surface-2)" }, svg);
+  const clip = s("clipPath", { id: "mapclip" }, s("defs", {}, svg));
+  s("rect", { x: 0, y: 0, width: W, height: H, rx: 12 }, clip);
+  const gl = s("g", { "clip-path": "url(#mapclip)" }, svg);
+  const paths = home.map(r => {
+    const el = s("path", { d: "M" + r.p.map(P).join("L"), fill: "none", stroke: pcol(r.block), "stroke-width": 1.4, "stroke-opacity": .5, "stroke-linejoin": "round", "stroke-linecap": "round" }, gl);
+    el.style.cursor = "pointer";
+    el.addEventListener("pointerenter", () => { el.setAttribute("stroke-width", 3); el.setAttribute("stroke-opacity", 1); gl.appendChild(el); });
+    el.addEventListener("pointerleave", () => { el.setAttribute("stroke-width", 1.4); el.setAttribute("stroke-opacity", .5); hideTip(); });
+    el.addEventListener("pointermove", ev => showTip(ev, `<b>${esc(r.name)}</b><br>${fmtDY(r.date)} · ${r.miles} mi<br>${esc(pname(r.block))}`));
+    return [r, el];
+  });
+  // fatter invisible hit lines would double the DOM; 1.2px lines + pointer-events on stroke is fine at this scale
+  for (const [, el] of paths) el.setAttribute("pointer-events", "visibleStroke");
+  function draw() { for (const [r, el] of paths) el.style.display = state.has(r.block) ? "" : "none"; }
+  const homeMiles = Math.round(home.reduce((a, r) => a + r.miles, 0));
+  // Away thumbnails (race trips etc.)
+  if (away.length) {
+    h("p", { class: "sub", style: "margin-top:18px" }, sec, "Away from home");
+    const th = h("div", { class: "thumbs" }, sec);
+    const groups = {};
+    for (const r of away) { const key = `${Math.round(r.c[0] / .3)},${Math.round(r.c[1] / .3)}`; (groups[key] = groups[key] || []).push(r); }
+    for (const rs of Object.values(groups)) {
+      const card = h("div", { class: "thumb" }, th);
+      const best = rs.reduce((a, b) => b.miles > a.miles ? b : a);
+      h("b", {}, card, esc(best.name.length > 28 ? best.name.slice(0, 27) + "…" : best.name));
+      h("span", {}, card, `${rs.length} run${rs.length > 1 ? "s" : ""} · ${Math.round(rs.reduce((a, r) => a + r.miles, 0))} mi`);
+      const ap = rs.flatMap(r => r.p), ax = ap.map(p => p[0]), ay = ap.map(p => p[1]);
+      const bx0 = Math.min(...ax), bx1 = Math.max(...ax), by0 = Math.min(...ay), by1 = Math.max(...ay);
+      const kk = Math.cos((by0 + by1) / 2 * Math.PI / 180);
+      const sc = Math.min(130 / ((bx1 - bx0) * kk || 1), 90 / ((by1 - by0) || 1));
+      const t = s("svg", { viewBox: "0 0 140 100", role: "img", "aria-label": best.name }, h("div", { class: "chart", style: "margin-top:6px" }, card));
+      for (const r of rs) {
+        const el = s("path", { d: "M" + r.p.map(([lo, la]) => `${(70 + (lo - (bx0 + bx1) / 2) * kk * sc).toFixed(1)},${(50 - (la - (by0 + by1) / 2) * sc).toFixed(1)}`).join("L"), fill: "none", stroke: pcol(r.block), "stroke-width": 1.5, "stroke-linejoin": "round" }, t);
+        hover(el, `<b>${esc(r.name)}</b><br>${fmtDY(r.date)} · ${r.miles} mi`);
+      }
+    }
+  }
+  h("p", { class: "takeaway" }, sec, `<b>${home.length} GPS runs at home, ${homeMiles.toLocaleString()} miles</b>, plus ${away.length} on the road. ${DATA.metrics.totals.runs - DATA.routes.length} runs had no GPS (treadmill or watch issues).`);
+})();
+
+// ================= 4. HR RIDGELINE =================
+(() => {
+  const R = DATA.ridges;
+  const easier = R.months.length > 1 && R.months[R.months.length - 1].median < R.months[0].median;
+  const sec = section(easier ? "Your easy runs got easier" : "Running heart rate, month by month",
+    `Distribution of every second of running heart rate, month by month. The dashed line is your latest goal race's average HR (${M.race_hr} bpm). Watch the hump slide left.`);
+  const W = 900, rowH = 30, amp = 70, L = 76, Rm = 70, T = 70;
+  const H = T + R.months.length * rowH + 40;
+  const svg = svgIn(sec, W, H, "Ridgeline of heart-rate distribution by month");
+  const x = lin(R.lo, R.hi, L, W - Rm);
+  const maxShare = Math.max(...R.months.flatMap(m => m.share));
+  for (const t of niceTicks(R.lo, R.hi, 5)) { s("line", { x1: x(t), x2: x(t), y1: T - 50, y2: H - 30, class: "gridline" }, svg); text(svg, x(t), H - 12, `${t}`, "lbl", "middle"); }
+  text(svg, W - Rm, H - 12, "bpm", "lbl", "start", { dx: 8 });
+  s("line", { x1: x(M.race_hr), x2: x(M.race_hr), y1: T - 54, y2: H - 30, stroke: "var(--ink-2)", "stroke-width": 1, "stroke-dasharray": "3 3" }, svg);
+  text(svg, x(M.race_hr) + 4, T - 44, `race HR ${M.race_hr}`, "lbl-2");
+  R.months.forEach((m, i) => {
+    const base = T + i * rowH;
+    const mid = m.month + "-15";  // colour a month by the period its middle falls in
+    const per = DATA.periods.find(p => p.start <= mid && mid <= p.end) || { key: null };
+    const col = pcol(per.key);
+    const ptsA = m.share.map((v, j) => [x(R.lo + j * R.step + R.step / 2), base - v / maxShare * amp]);
+    const d = `M${x(R.lo)},${base}` + ptsA.map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join("") + `L${x(R.hi)},${base}`;
+    s("path", { d: d + "Z", fill: "var(--surface)" }, svg);
+    s("path", { d: d + "Z", fill: col, opacity: .14 }, svg);
+    s("path", { d, fill: "none", stroke: col, "stroke-width": 1.6, "stroke-linejoin": "round" }, svg);
+    s("line", { x1: x(m.median), x2: x(m.median), y1: base - 6, y2: base + 2, stroke: "var(--ink)", "stroke-width": 2 }, svg);
+    text(svg, L - 10, base - 2, monthName(m.month), "lbl-2", "end");
+    text(svg, W - Rm + 8, base - 2, `${m.median}`, "lbl", "start");
+    const hit = s("rect", { x: L, y: base - rowH, width: W - L - Rm, height: rowH, fill: "transparent" }, svg);
+    hover(hit, `<b>${monthName(m.month)}</b><br>Median ${m.median} bpm · ${m.hours} h of HR data<br>${esc(per.key ? pname(per.key) : "Between blocks")}`);
+  });
+  text(svg, W - Rm + 8, T - 44, "median", "lbl");
+  legend(sec, DATA.periods.map(p => ({ label: shortName(p), color: pcol(p.key) })).concat([{ label: "Between blocks", color: "var(--other)" }]));
+  const a = R.months[0], z = R.months[R.months.length - 1];
+  h("p", { class: "takeaway" }, sec, `<b>Median running HR went from ${a.median} to ${z.median} bpm</b> (${monthName(a.month)} → ${monthName(z.month)}). ${M.blocks.length > 1 ? `In ${esc(shortName(M.blocks[0]))}, ${M.blocks[0].share_within_10_of_race}% of running time was within 10 bpm of race effort (${M.race_hr} bpm); in ${esc(shortName(M.blocks[M.blocks.length - 1]))} it was ${M.blocks[M.blocks.length - 1].share_within_10_of_race}%.` : ""}`);
+})();
+
+// ================= 5. RACE REPLAY =================
+(() => {
+  if (!mara || !(mara.splits || []).length) return;
+  const ok = sp => (sp || []).filter(s => s.pace > 240 && s.pace < 900);
+  const sp = ok(mara.splits), pv = prevMara ? ok(prevMara.splits) : [];
+  // Reference: the round 10-minute goal this marathon came in under, e.g. 3:39:55 → sub-3:40.
+  const goalSec = Math.ceil(mara.seconds / 600) * 600, goalPace = goalSec / 26.219;
+  const goalLbl = `sub-${Math.floor(goalSec / 3600)}:${String(goalSec % 3600 / 60).padStart(2, "0")}`;
+  const sec = section(`${esc(mara.name)}, mile by mile`,
+    `Bars are each mile of ${esc(mara.name)}` + (pv.length ? `; dots are the same mile of ${esc(prevMara.name)}.` : ".") + ` The dashed line is ${goalLbl} pace. Heart rate per mile is below.`);
+  const col = pcol(mara.block), pcolPrev = prevMara ? pcol(prevMara.block) : null;
+  const legendItems = [{ label: mara.name, color: col }];
+  if (pv.length) legendItems.push({ label: prevMara.name, color: pcolPrev, line: true });
+  const W = 900, H = 260, L = 46, Rm = 92, T = 20, Bm = 28, n = Math.max(sp.length, pv.length);
+  const svg = svgIn(sec, W, H, "Marathon pace per mile");
+  const all = sp.concat(pv).map(s => s.pace);
+  const lo = Math.min(...all) - 15, hi = Math.max(...all) + 15;
+  const x = i => L + (i + .5) * (W - L - Rm) / n, bw = Math.min(24, (W - L - Rm) / n - 4);
+  const y = lin(hi, lo, H - Bm, T); // faster = higher
+  const ticks = []; for (let t = Math.ceil(lo / 30) * 30; t <= hi; t += 30) ticks.push(t);
+  yAxis(svg, ticks, y, L, W - Rm, v => pace(v));
+  sp.forEach((m, i) => {
+    const top = y(m.pace), base = H - Bm;
+    s("path", { d: `M${x(i) - bw / 2},${base}V${top + 4}q0,-4 4,-4h${bw - 8}q4,0 4,4V${base}Z`, fill: col, opacity: .9 }, svg);
+    if (m.mile % 5 === 0 || m.mile === 1) text(svg, x(i), H - 10, `${m.mile}`, "lbl", "middle");
+  });
+  if (pv.length) {
+    s("path", { d: pv.map((m, i) => `${i ? "L" : "M"}${x(i)},${y(m.pace)}`).join(""), fill: "none", stroke: pcolPrev, "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+    pv.forEach((m, i) => s("circle", { cx: x(i), cy: y(m.pace), r: 4, fill: pcolPrev, stroke: "var(--surface)", "stroke-width": 2 }, svg));
+  }
+  s("line", { x1: L, x2: W - Rm, y1: y(goalPace), y2: y(goalPace), stroke: "var(--ink-2)", "stroke-width": 1, "stroke-dasharray": "4 3" }, svg);
+  text(svg, W - Rm + 8, y(goalPace) - 2, `${goalLbl} pace`, "lbl-2");
+  text(svg, W - Rm + 8, y(goalPace) + 12, `${pace(goalPace)}/mi`, "lbl");
+  for (let i = 0; i < n; i++) {
+    const a = sp[i], b = pv[i];
+    const hit = s("rect", { x: x(i) - (W - L - Rm) / n / 2, y: T, width: (W - L - Rm) / n, height: H - T - Bm, fill: "transparent" }, svg);
+    hover(hit, `<b>Mile ${i + 1}</b>` + (a ? `<br>${esc(mara.name)}: ${pace(a.pace)}/mi · ${a.hr} bpm` : "") + (b ? `<br>${esc(prevMara.name)}: ${pace(b.pace)}/mi · ${b.hr} bpm` : ""));
+  }
+  text(svg, L, H - 10, "mile", "lbl", "end", { dx: -8 });
+  legend(sec, legendItems);
+  // HR strip
+  const H2 = 130, svg2 = svgIn(h("div", {}, sec), W, H2, "Marathon heart rate per mile");
+  const hrs = sp.concat(pv).map(m => m.hr).filter(Boolean);
+  const y2 = lin(Math.min(...hrs) - 4, Math.max(...hrs) + 4, H2 - 22, 14);
+  yAxis(svg2, niceTicks(Math.min(...hrs) - 4, Math.max(...hrs) + 4, 3), y2, L, W - Rm, v => `${v}`);
+  for (const [arr, c] of [[pv, pcolPrev], [sp, col]]) {
+    if (!arr.length) continue;
+    s("path", { d: arr.filter(m => m.hr).map((m, i) => `${i ? "L" : "M"}${x(arr.indexOf(m))},${y2(m.hr)}`).join(""), fill: "none", stroke: c, "stroke-width": 2, "stroke-linejoin": "round" }, svg2);
+  }
+  text(svg2, L, 8, "heart rate (bpm)", "lbl");
+  const under = sp.filter(m => m.pace <= goalPace).length;
+  const spHr = sp.map(m => m.hr).filter(Boolean), avg = a => Math.round(a.reduce((p, c) => p + c, 0) / a.length);
+  const pvHr = pv.map(m => m.hr).filter(Boolean);
+  h("p", { class: "takeaway" }, sec, `<b>${esc(mara.name)}: ${mara.time}, second half ${mara.split_drift_pct >= 0 ? mara.split_drift_pct + "% slower" : Math.abs(mara.split_drift_pct) + "% faster"} than the first.</b> ${under} of ${sp.length} miles were under ${goalLbl} pace.` +
+    (pv.length ? ` Against ${esc(prevMara.name)} you were ${hms(prevMara.seconds - mara.seconds)} faster at an average ${avg(spHr)} bpm vs ${avg(pvHr)}.` : ""));
+  table(sec, ["Mile", `${mara.name} pace`, "HR"].concat(pv.length ? [`${prevMara.name} pace`, "HR"] : []),
+    Array.from({ length: n }, (_, i) => [i + 1, sp[i] ? pace(sp[i].pace) : "–", sp[i]?.hr ?? "–"].concat(pv.length ? [pv[i] ? pace(pv[i].pace) : "–", pv[i]?.hr ?? "–"] : [])), "Show all splits");
+})();
+
+// ================= 5b. RACE DASH =================
+(() => {
+  const R = (DATA.races || []).slice().sort((a, b) => a.date.localeCompare(b.date));
+  if (!R.length) return;
+  const distLbl = mi => ({ 3.107: "5K", 5: "5M", 6.214: "10K", 10: "10M", 13.109: "Half", 26.219: "Marathon" })[mi] || `${mi} mi`;
+  const periodOf = d => (DATA.periods.find(p => p.start <= d && d <= p.end) || {}).key || null;
+  const F = c => c == null ? null : Math.round(c * 9 / 5 + 32);
+  const sec = section("Race dash", "Pick a race: every mile, how you slept the night before, and the eight weeks that led into it.");
+  const chips = h("div", { class: "filters" }, sec);
+  const body = h("div", {}, sec);
+  const btns = R.map(r => {
+    const b = h("button", { "aria-pressed": "false" }, chips, `<span class="sw" style="width:8px;height:8px;border-radius:50%;display:inline-block;background:${pcol(periodOf(r.date))}"></span>${esc(r.name)} <span style="color:var(--ink-3)">${D(r.date).toLocaleDateString("en-US", { month: "short", year: "2-digit" })}</span>`);
+    b.onclick = () => show(r);
+    return [r, b];
+  });
+
+  function show(r) {
+    for (const [rr, b] of btns) b.setAttribute("aria-pressed", rr === r);
+    body.innerHTML = "";
+    const col = pcol(periodOf(r.date));
+    // ---- header + tiles
+    h("div", { class: "racehead" }, body, `<h3>${esc(r.name)}${r.goal ? ' <span class="badge">Goal race</span>' : ""}</h3>
+      <div class="meta">${D(r.date).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })} · ${r.start}${r.place ? " · " + esc(r.place) : ""} · ${distLbl(r.distance_mi)}</div>`);
+    const tiles = h("div", { class: "tiles", style: "margin-top:14px" }, body);
+    const t = r.temp_c || {};
+    for (const [label, value, delta] of [
+      ["Finish", shortT(r.time), `${r.pace}/mi`],
+      r.avg_hr && ["Heart rate", `${r.avg_hr}`, `avg bpm · max ${r.max_hr}`],
+      r.fade_pct != null && ["Second half", `${r.fade_pct > 0 ? "+" : "−"}${Math.abs(r.fade_pct)}%`, `${r.first_half} → ${r.second_half}/mi · ${r.fade_pct <= 0 ? "negative split" : "slower"}`],
+      (t.min != null || t.watch != null) && ["Watch temp", t.min != null ? `${F(t.min)}–${F(t.max)}°F` : `${F(t.watch)}°F`, "on your wrist, so it reads warm"],
+      r.climb_m && ["Climb", `${Math.round(r.climb_m * 3.281)} ft`, `${r.climb_m} m total`],
+    ].filter(Boolean)) h("div", { class: "tile" }, tiles, `<div class="label">${label}</div><div class="value">${value}</div><div class="delta">${delta}</div>`);
+
+    // ---- splits
+    const sp = r.splits.filter(x => x.pace && x.pace > 240 && x.pace < 1200);
+    if (sp.length) {
+      const prev = R.filter(o => o.distance_mi === r.distance_mi && o.date < r.date).pop();
+      const pv = prev ? prev.splits.filter(x => x.pace && x.pace > 240 && x.pace < 1200) : [];
+      h("h4", {}, body, "Every mile");
+      legend(body, [{ label: r.name, color: col }].concat(pv.length ? [{ label: `${prev.name}, ${D(prev.date).getFullYear()}`, color: "var(--ink-3)", line: true }] : []).concat([{ label: "Race average pace", color: "var(--ink-2)", line: true }]));
+      const W = 900, H = 240, L = 46, Rm = 12, T = 18, Bm = 26;
+      const svg = svgIn(body, W, H, `${r.name} mile splits`);
+      const avgPace = r.seconds / r.distance_mi;
+      const all = sp.map(x => x.pace).concat(pv.map(x => x.pace), [avgPace]);
+      const lo = Math.min(...all), hi = Math.max(...all);
+      const y = lin(hi + 20, lo - 20, H - Bm, T);
+      const ticks = []; for (let v = Math.ceil((lo - 20) / 30) * 30; v <= hi + 20; v += 30) ticks.push(v);
+      yAxis(svg, ticks.length > 6 ? ticks.filter((_, i) => i % 2 === 0) : ticks, y, L, W - Rm, pace);
+      const total = sp.reduce((a, x) => a + x.dist, 0);
+      const x = lin(0, total, L, W - Rm);
+      let d = 0;
+      sp.forEach((m, i) => {
+        const x0 = x(d) + 1.5, x1 = x(d + m.dist) - 1.5, w = Math.max(2, x1 - x0), top = y(m.pace), base = H - Bm, rr = Math.min(4, w / 2);
+        s("path", { d: `M${x0},${base}V${top + rr}q0,-${rr} ${rr},-${rr}h${w - 2 * rr}q${rr},0 ${rr},${rr}V${base}Z`, fill: col, opacity: m.mile === r.slowest ? .55 : 1 }, svg);
+        if (sp.length <= 14) text(svg, x0 + w / 2, top - 6, pace(m.pace), "lbl", "middle");
+        if (sp.length <= 14 || (i + 1) % 2 === 1) text(svg, x0 + w / 2, H - 8, m.dist < .95 ? `${m.dist}` : `${m.mile}`, "lbl", "middle");
+        const o = pv[i];
+        if (o) s("circle", { cx: x0 + w / 2, cy: y(o.pace), r: 4, fill: "var(--surface)", stroke: "var(--ink-3)", "stroke-width": 2 }, svg);
+        const hit = s("rect", { x: x0, y: T, width: w, height: H - T - Bm, fill: "transparent" }, svg);
+        hover(hit, `<b>Mile ${m.mile}${m.dist < .95 ? ` (${m.dist} mi)` : ""}</b><br>${pace(m.pace)}/mi${m.hr ? ` · ${m.hr} bpm (max ${m.max_hr})` : ""}${m.cad ? `<br>${m.cad} spm` : ""}${m.climb_m != null ? ` · ${Math.round(m.climb_m * 3.281)} ft up` : ""}${o ? `<br>${esc(prev.name)}: ${pace(o.pace)}/mi${o.hr ? ` · ${o.hr} bpm` : ""}` : ""}`);
+        d += m.dist;
+      });
+      s("line", { x1: L, x2: W - Rm, y1: y(avgPace), y2: y(avgPace), stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, svg);
+      const hrs = sp.filter(m => m.hr);
+      if (hrs.length > 1) {
+        const H2 = 90, svg2 = svgIn(body, W, H2, "Heart rate per mile");
+        const hv = hrs.map(m => m.hr).concat(pv.filter(m => m.hr).map(m => m.hr));
+        const y2 = lin(Math.min(...hv) - 3, Math.max(...hv) + 3, H2 - 10, 16);
+        yAxis(svg2, niceTicks(Math.min(...hv) - 3, Math.max(...hv) + 3, 2), y2, L, W - Rm);
+        let dd = 0; const pts = [], ptsPrev = [];
+        sp.forEach((m, i) => { const cx = x(dd + m.dist / 2); if (m.hr) pts.push([cx, y2(m.hr)]); if (pv[i] && pv[i].hr) ptsPrev.push([cx, y2(pv[i].hr)]); dd += m.dist; });
+        const line = (p, attrs) => s("path", { d: p.map((q, i) => `${i ? "L" : "M"}${q[0].toFixed(1)},${q[1].toFixed(1)}`).join(""), fill: "none", "stroke-width": 2, "stroke-linejoin": "round", ...attrs }, svg2);
+        if (ptsPrev.length > 1) line(ptsPrev, { stroke: "var(--ink-3)", "stroke-dasharray": "3 3" });
+        line(pts, { stroke: col });
+        text(svg2, L, 10, "heart rate (bpm)", "lbl");
+      }
+    }
+
+    // ---- night before + weeks before
+    const grid = h("div", { class: "grid2", style: "margin-top:28px" }, body);
+    const nb = h("div", {}, grid);
+    h("h4", {}, nb, "The night before");
+    const N = Object.entries(r.night || {});
+    if (!N.length) h("p", { class: "sub" }, nb, "No sleep data from the watch that night.");
+    for (const [k, m] of N) {
+      const fmt = v => k === "sleep_h" ? `${Math.floor(v)}h ${String(Math.round(v % 1 * 60)).padStart(2, "0")}m` : `${Math.round(v)}${m.unit && m.unit !== "h" ? (m.unit === "%" ? "%" : " " + m.unit) : ""}`;
+      const row = h("div", { class: "nightrow" }, nb);
+      h("div", { class: "nl" }, row, m.label);
+      const W = 160, H = 18, sv = s("svg", { viewBox: `0 0 ${W} ${H}`, width: "100%", height: H, role: "img", "aria-label": `${m.label} vs usual` }, h("div", { class: "nt" }, row));
+      const top = Math.max(m.value, m.base || 0) * 1.15 || 1, xx = v => 4 + (W - 8) * v / top;
+      s("line", { x1: 4, x2: W - 4, y1: H / 2, y2: H / 2, stroke: "var(--grid)", "stroke-width": 4, "stroke-linecap": "round" }, sv);
+      let tone = "var(--ink-2)", note = "";
+      if (m.base != null) {
+        const diff = m.value - m.base, rel = Math.abs(diff) / (m.base || 1);
+        const good = m.better == null ? null : (diff >= 0) === m.better;
+        if (rel > .05 && good != null) tone = good ? "var(--good)" : "var(--warn)";
+        s("line", { x1: Math.min(xx(m.value), xx(m.base)), x2: Math.max(xx(m.value), xx(m.base)), y1: H / 2, y2: H / 2, stroke: tone, "stroke-width": 4, "stroke-linecap": "round", opacity: .45 }, sv);
+        s("line", { x1: xx(m.base), x2: xx(m.base), y1: 2, y2: H - 2, stroke: "var(--ink-2)", "stroke-width": 2 }, sv);
+        note = `usual ${fmt(m.base)}`;
+      }
+      s("circle", { cx: xx(m.value), cy: H / 2, r: 5, fill: tone, stroke: "var(--surface)", "stroke-width": 2 }, sv);
+      h("div", { class: "nv" }, row, `<b style="color:${tone}">${fmt(m.value)}</b> <span>${note}</span>`);
+    }
+    if (N.length) h("p", { class: "fine" }, nb, `Bar = race night, tick = your median over the ${28} nights before.`);
+
+    const li = r.lead_in, wb = h("div", {}, grid);
+    h("h4", {}, wb, "The eight weeks before");
+    const W2 = 420, H2 = 170, L2 = 30, B2 = 22, T2 = 14;
+    const svg3 = svgIn(wb, W2, H2, "Weekly miles before the race");
+    const mx = Math.max(10, ...li.weeks.map(w => w.mi));
+    const y3 = lin(0, mx * 1.1, H2 - B2, T2), bw = (W2 - L2) / li.weeks.length;
+    yAxis(svg3, niceTicks(0, mx * 1.1, 3), y3, L2, W2);
+    li.weeks.forEach((w, i) => {
+      const x0 = L2 + i * bw + 4, ww = bw - 8, top = y3(w.mi), base = H2 - B2, rr = Math.min(3, ww / 2);
+      const isPeak = w.mi === li.peak && w.mi > 0;
+      s("path", { d: `M${x0},${base}V${top + rr}q0,-${rr} ${rr},-${rr}h${ww - 2 * rr}q${rr},0 ${rr},${rr}V${base}Z`, fill: i === li.weeks.length - 1 ? col : "var(--s3)", opacity: i === li.weeks.length - 1 || isPeak ? 1 : .6 }, svg3);
+      text(svg3, x0 + ww / 2, top - 4, `${Math.round(w.mi)}`, "lbl", "middle");
+      text(svg3, x0 + ww / 2, H2 - 6, i === li.weeks.length - 1 ? "race wk" : `−${w.weeks_out}`, "lbl", "middle");
+      const hit = s("rect", { x: x0, y: T2, width: ww, height: H2 - T2 - B2, fill: "transparent" }, svg3);
+      hover(hit, `<b>${w.weeks_out === 1 ? "The 7 days before the race" : `${w.weeks_out} weeks out`}</b><br>Week to ${fmtD(w.end)}: ${w.mi} mi in ${w.runs} runs`);
+    });
+    const facts = h("div", { class: "facts" }, wb);
+    for (const [big, small] of [
+      [`${Math.round(li.last7)} mi`, li.taper_pct != null ? `last 7 days · ${li.taper_pct > 0 ? `${li.taper_pct}% under` : "at"} peak week` : "last 7 days"],
+      li.longest && [`${li.longest.mi} mi`, `longest run in the 6 weeks before · ${fmtD(li.longest.date)}`],
+      [`${li.hard.length}`, `hard session${li.hard.length === 1 ? "" : "s"} in the last 2 weeks` + (li.hard.length ? `: ${li.hard.map(x => esc(x.name.split(" · ")[0])).join(", ")}` : "")],
+      li.rest_days != null && [`${li.rest_days}`, `rest day${li.rest_days === 1 ? "" : "s"} right before`],
+    ].filter(Boolean)) h("div", { class: "fact" }, facts, `<b>${big}</b><span>${small}</span>`);
+  }
+  show(R[R.length - 1]);
+  table(sec, ["Date", "Race", "Distance", "Time", "Pace /mi", "Avg HR", "2nd half", "Sleep", "Last 7 days"],
+    R.map(r => [fmtDY(r.date), r.name + (r.goal ? " ★" : ""), distLbl(r.distance_mi), r.time, r.pace, r.avg_hr ?? "–",
+      r.fade_pct != null ? `${r.fade_pct > 0 ? "+" : ""}${r.fade_pct}%` : "–", r.night.sleep_h ? `${r.night.sleep_h.value} h` : "–", `${r.lead_in.last7} mi`]), "Compare every race");
+})();
+
+// ================= 6. EFFICIENCY =================
+(() => {
+  if (!DATA.ef.length || efGain == null) return;
+  const sec = section(efGain > 0 ? "More speed for every heartbeat" : "Speed per heartbeat",
+    "Efficiency factor for every run with heart rate: metres per minute divided by average bpm. Higher is fitter. The line is the monthly median.");
+  const pts = DATA.ef;
+  const W = 900, H = 300, L = 46, Rm = 16, T = 16, Bm = 30;
+  const svg = svgIn(sec, W, H, "Efficiency factor per run over time");
+  const t0 = D(DATA.window[0]).getTime(), t1 = D(DATA.window[1]).getTime();
+  const x = lin(t0, t1, L, W - Rm);
+  const vals = pts.map(p => p.ef).sort((a, b) => a - b);
+  const lo = vals[Math.floor(vals.length * .02)] - .02, hi = vals[Math.floor(vals.length * .98)] + .02;
+  const y = lin(lo, hi, H - Bm, T);
+  yAxis(svg, niceTicks(lo, hi, 4), y, L, W - Rm, v => v.toFixed(2));
+  // summer heat band
+  for (let yr = +DATA.window[0].slice(0, 4); yr <= +DATA.window[1].slice(0, 4); yr++) {
+    const hs = Math.max(t0, D(`${yr}-06-01`).getTime()), he = Math.min(t1, D(`${yr}-08-31`).getTime());
+    if (he - hs > 20 * 864e5) { s("rect", { x: x(hs), y: T, width: x(he) - x(hs), height: H - T - Bm, fill: "var(--surface-2)" }, svg); text(svg, x(hs) + 6, T + 14, "summer", "lbl"); }
+  }
+  for (let d = new Date(t0); d <= t1; d.setMonth(d.getMonth() + 2)) {
+    const m = new Date(d.getFullYear(), d.getMonth(), 1);
+    if (m.getTime() >= t0) text(svg, x(m.getTime()), H - 10, m.toLocaleDateString("en-US", { month: "short", year: "2-digit" }), "lbl", "middle");
+  }
+  for (const p of pts) {
+    if (p.ef < lo || p.ef > hi) continue;
+    const c = s("circle", { cx: x(D(p.date).getTime()), cy: y(p.ef), r: 4, fill: pcol(p.block), "fill-opacity": .7, stroke: "var(--surface)", "stroke-width": 1.5 }, svg);
+    hover(c, `<b>${esc(p.name)}</b><br>${fmtDY(p.date)} · ${p.mi} mi<br>EF ${p.ef.toFixed(3)}`);
+  }
+  const med = M.efficiency.map(m => [x(D(m.month + "-15").getTime()), y(m.ef)]);
+  s("path", { d: med.map((p, i) => `${i ? "L" : "M"}${p[0]},${p[1]}`).join(""), fill: "none", stroke: "var(--ink)", "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+  const lp = med[med.length - 1];
+  text(svg, lp[0] - 6, lp[1] - 10, `${efLast.ef.toFixed(2)}`, "lbl-1", "end");
+  legend(sec, DATA.periods.map(p => ({ label: shortName(p), color: pcol(p.key) })).concat([{ label: "Between blocks", color: "var(--other)" }]).concat([{ label: "Monthly median", color: "var(--ink)", line: true }]));
+  const dip = M.efficiency.reduce((a, b) => b.ef < a.ef ? b : a);
+  h("p", { class: "takeaway" }, sec, `<b>Efficiency ${efGain >= 0 ? "rose" : "fell"} ${Math.abs(efGain)}% over this range</b>, from ${efFirst.ef.toFixed(2)} in ${monthName(efFirst.month)} to ${efLast.ef.toFixed(2)} in ${monthName(efLast.month)}. ${["06", "07", "08"].includes(dip.month.slice(5)) ? `The low point, ${monthName(dip.month)} (${dip.ef.toFixed(2)}), lines up with summer heat: the same runs cost more heartbeats in humid weather.` : ""}`);
+  table(sec, ["Month", "Median EF", "Runs"], M.efficiency.map(m => [monthName(m.month), m.ef.toFixed(3), m.runs]));
+})();
+
+// ================= 6b. INTERVAL PROGRESSION =================
+const ORDER = ["200 m", "400 m", "600 m", "800 m", "1 km", "1200 m", "1 mile"];
+const mmss = sec => `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, "0")}`;
+(() => {
+  if (!DATA.reps.length) return;
+  // Session averages per distance.
+  const byDist = {};
+  for (const r of DATA.reps) {
+    const k = `${r.dist}|${r.id}`;
+    (byDist[r.dist] = byDist[r.dist] || {})[r.id] = (byDist[r.dist][r.id] || []).concat([r]);
+  }
+  const dists = ORDER.filter(d => byDist[d] && Object.keys(byDist[d]).length >= 2);
+  if (!dists.length) return;
+  const sec = section("Your repeats, over time",
+    "Every interval rep found in your laps, grouped by distance. Small dots are single reps; big dots are the session average; the line is the trend. Faster is higher.");
+  legend(sec, DATA.periods.map(p => ({ label: shortName(p), color: pcol(p.key) })).concat([{ label: "Between blocks", color: "var(--other)" }, { label: "Single rep", color: "var(--ink-3)" }]));
+  const grid = h("div", { class: "grid2" }, sec);
+  const t0 = D(DATA.window[0]).getTime(), t1 = D(DATA.window[1]).getTime();
+  const lines = [];
+  for (const dist of dists) {
+    const sess = Object.values(byDist[dist]).map(rs => ({
+      id: rs[0].id, date: rs[0].date, name: rs[0].name, block: rs[0].block, reps: rs,
+      avg: rs.reduce((a, r) => a + r.sec, 0) / rs.length,
+      hr: rs.filter(r => r.hr).length ? Math.round(rs.filter(r => r.hr).reduce((a, r) => a + r.hr, 0) / rs.filter(r => r.hr).length) : null,
+    })).sort((a, b) => a.date.localeCompare(b.date));
+    const cell = h("div", {}, grid);
+    const best = sess.reduce((a, b) => b.avg < a.avg ? b : a), first = sess[0], last = sess[sess.length - 1];
+    const delta = last.avg - first.avg;
+    h("div", { style: "display:flex;justify-content:space-between;align-items:baseline;gap:8px" }, cell,
+      `<span style="font-weight:600">${dist}</span><span style="font-size:12px;color:var(--ink-3)">${sess.length} sessions · ${sess.reduce((a, s) => a + s.reps.length, 0)} reps</span>`);
+    const W = 420, H = 200, L = 44, R = 10, T = 12, Bm = 24;
+    const svg = svgIn(cell, W, H, `${dist} repeats over time`);
+    const all = sess.flatMap(s => s.reps.map(r => r.sec));
+    const lo = Math.min(...all), hi = Math.max(...all), pad = (hi - lo) * .12 + 1;
+    const x = lin(t0, t1, L, W - R), y = lin(hi + pad, lo - pad, H - Bm, T);
+    const step = [1, 2, 5, 10, 15, 30, 60].find(st => (hi - lo + 2 * pad) / st <= 4) || 60;
+    const ticks = []; for (let v = Math.ceil((lo - pad) / step) * step; v <= hi + pad; v += step) ticks.push(v);
+    yAxis(svg, ticks, y, L, W - R, mmss);
+    for (let d = new Date(t0); d <= t1; d.setMonth(d.getMonth() + 4)) {
+      const m = new Date(d.getFullYear(), d.getMonth(), 1);
+      if (m.getTime() >= t0) text(svg, x(m.getTime()), H - 6, m.toLocaleDateString("en-US", { month: "short", year: "2-digit" }), "lbl", "middle");
+    }
+    // trend (least squares on session averages)
+    if (sess.length >= 3) {
+      const xs = sess.map(s => D(s.date).getTime()), ys = sess.map(s => s.avg);
+      const mx = xs.reduce((a, b) => a + b) / xs.length, my = ys.reduce((a, b) => a + b) / ys.length;
+      const b = xs.reduce((a, v, i) => a + (v - mx) * (ys[i] - my), 0) / xs.reduce((a, v) => a + (v - mx) ** 2, 0);
+      const xa = Math.min(...xs), xb = Math.max(...xs);
+      s("line", { x1: x(xa), x2: x(xb), y1: y(my + b * (xa - mx)), y2: y(my + b * (xb - mx)), stroke: "var(--ink-2)", "stroke-width": 2, "stroke-linecap": "round" }, svg);
+    }
+    for (const se of sess) {
+      const cx = x(D(se.date).getTime());
+      for (const r of se.reps) s("circle", { cx, cy: y(r.sec), r: 2.5, fill: "var(--ink-3)", opacity: .6 }, svg);
+      const dot = s("circle", { cx, cy: y(se.avg), r: 5, fill: pcol(se.block), stroke: "var(--surface)", "stroke-width": 2 }, svg);
+      const hit = s("circle", { cx, cy: y(se.avg), r: 12, fill: "transparent" }, svg);
+      hover(hit, `<b>${fmtDY(se.date)} · ${se.reps.length} × ${dist}</b>${se.reps[0].name.includes(" · ") ? "<br>" + esc(se.reps[0].name.split(" · ").pop()) : ""}<br>Average ${mmss(se.avg)} (${mmss(se.avg / se.reps[0].target_m * 1609.344)}/mi)${se.hr ? ` · ${se.hr} bpm` : ""}<br>Reps: ${se.reps.map(r => mmss(r.sec)).join(", ")}`);
+      hit.style.cursor = "pointer";
+      hit.addEventListener("click", () => window.dispatchEvent(new CustomEvent("open-session", { detail: se.id })));
+    }
+    lines.push({ dist, first, last, best, delta });
+  }
+  // One tile per distance: latest session average, change since the first, best.
+  const rt = h("div", { class: "reptiles" }, sec);
+  for (const l of lines) {
+    const faster = l.delta < 0;
+    h("div", { class: "reptile" }, rt, `<div class="d">${l.dist} · latest</div><div class="v">${mmss(l.last.avg)}</div>` +
+      `<div class="c" style="color:${Math.abs(l.delta) < 1 ? "var(--ink-3)" : faster ? "var(--good)" : "var(--warn)"}">${faster ? "▲" : l.delta > 0 ? "▼" : "•"} ${mmss(Math.abs(l.delta))} ${faster ? "faster" : l.delta > 0 ? "slower" : ""} than first</div>` +
+      `<div class="b">best ${mmss(l.best.avg)} · ${fmtD(l.best.date)}</div>`);
+  }
+  h("p", { class: "fine" }, sec, "Session averages. Click a big dot in a chart to open that workout below.");
+  table(sec, ["Date", "Distance", "Rep", "Time", "Pace /mi", "HR", "Workout"],
+    DATA.reps.slice().sort((a, b) => a.date.localeCompare(b.date) || a.rep - b.rep).map(r => [fmtDY(r.date), r.dist, r.rep, mmss(r.sec), mmss(r.pace_mi), r.hr ?? "–", r.name]), "Show every rep");
+})();
+
+// ================= 6c. WORKOUT EXPLORER =================
+(() => {
+  if (!DATA.sessions.length) return;
+  const sec = section("Inside a workout", "Every lap of one interval session. Bar width is how long the lap took, height is pace (faster is taller). Reps are coloured; warm-up, recovery and cool-down are gray.");
+  const ses = DATA.sessions.slice().sort((a, b) => b.date.localeCompare(a.date));
+  const pick = h("select", { "aria-label": "Choose a workout", style: "font:inherit;font-size:14px;color:var(--ink);background:var(--surface-2);border:1px solid var(--grid);border-radius:8px;padding:6px 10px;margin:0 0 12px;max-width:100%" }, sec);
+  for (const s0 of ses) h("option", { value: s0.id }, pick, `${fmtDY(s0.date)} · ${esc(s0.summary)}${s0.place ? " · " + esc(s0.place) : ""}`);
+  const holder = h("div", {}, sec);
+  const note = h("div", {}, sec);
+  function draw(id) {
+    holder.innerHTML = "";
+    const se = DATA.sessions.find(x => x.id === id);
+    const laps = se.laps, col = pcol(se.block);
+    const total = laps.reduce((a, l) => a + l[1], 0);
+    const W = 900, H = 240, L = 46, R = 12, T = 14, Bm = 26;
+    const svg = svgIn(holder, W, H, "Lap chart");
+    const paces = laps.map(l => l[1] / l[0] * 1609.344);
+    const lo = Math.min(...paces), hi = Math.min(Math.max(...paces), lo * 1.9);
+    const x = lin(0, total, L, W - R), y = lin(hi + 15, lo - 15, H - Bm, T);
+    const ticks = []; for (let v = Math.ceil((lo - 15) / 60) * 60; v <= hi + 15; v += 60) ticks.push(v);
+    yAxis(svg, ticks, y, L, W - R, v => mmss(v));
+    let t = 0;
+    laps.forEach((l, i) => {
+      const isRep = se.reps[i] != null;
+      const x0 = x(t) + 1, x1 = x(t + l[1]) - 1, pc = Math.min(paces[i], hi + 15);
+      const top = y(pc), base = H - Bm, w = Math.max(1, x1 - x0), r = Math.min(4, w / 2);
+      s("path", { d: `M${x0},${base}V${top + r}q0,-${r} ${r},-${r}h${w - 2 * r}q${r},0 ${r},${r}V${base}Z`, fill: isRep ? col : "var(--other)", opacity: isRep ? 1 : .55 }, svg);
+      const hit = s("rect", { x: x0, y: T, width: w, height: H - T - Bm, fill: "transparent" }, svg);
+      hover(hit, `<b>Lap ${i + 1}${isRep ? " · " + se.reps[i] + " rep" : ""}</b><br>${(l[0] / 1000).toFixed(2)} km in ${mmss(l[1])}<br>${mmss(paces[i])}/mi${l[2] ? ` · ${l[2]} bpm` : ""}`);
+      t += l[1];
+    });
+    for (let m = 0; m <= total / 60; m += 10) text(svg, x(m * 60), H - 8, `${m}′`, "lbl", "middle");
+    // HR strip on its own axis below
+    const hrs = laps.map(l => l[2]).filter(Boolean);
+    if (hrs.length > 2) {
+      const H2 = 100, svg2 = svgIn(h("div", {}, holder), W, H2, "Heart rate per lap");
+      const y2 = lin(Math.min(...hrs) - 5, Math.max(...hrs) + 5, H2 - 14, 14);
+      yAxis(svg2, niceTicks(Math.min(...hrs) - 5, Math.max(...hrs) + 5, 2), y2, L, W - R);
+      let tt = 0; const pts = [];
+      laps.forEach(l => { if (l[2]) pts.push([x(tt + l[1] / 2), y2(l[2])]); tt += l[1]; });
+      s("path", { d: pts.map((p, i) => `${i ? "L" : "M"}${p[0]},${p[1]}`).join(""), fill: "none", stroke: "var(--ink-2)", "stroke-width": 2, "stroke-linejoin": "round" }, svg2);
+      text(svg2, L, 10, "heart rate (bpm)", "lbl");
+    }
+    const reps = DATA.reps.filter(r => r.id === id);
+    const groups = {};
+    for (const r of reps) (groups[r.dist] = groups[r.dist] || []).push(r);
+    // Rep chips: each rep's time, fastest highlighted, then the average.
+    note.innerHTML = "";
+    for (const [d, rs] of Object.entries(groups)) {
+      const secs = rs.map(r => r.sec), avg = secs.reduce((a, b) => a + b) / secs.length, fastest = Math.min(...secs);
+      const fade = secs[secs.length - 1] - secs[0];
+      const row = h("div", { class: "repchips" }, note);
+      rs.forEach((r, i) => h("div", { class: "repchip", style: r.sec === fastest ? `box-shadow: inset 0 0 0 2px ${col}` : "" }, row, `${d} #${i + 1}<b>${mmss(r.sec)}</b>${r.hr ? `${Math.round(r.hr)} bpm` : ""}`));
+      h("div", { class: "repchip", style: "background:transparent;border:1px solid var(--grid)" }, row, `average<b>${mmss(avg)}</b>last vs first ${fade <= 0 ? "−" : "+"}${mmss(Math.abs(fade))}`);
+    }
+  }
+  pick.onchange = () => draw(pick.value);
+  window.addEventListener("open-session", ev => { pick.value = ev.detail; draw(ev.detail); sec.scrollIntoView({ behavior: "smooth", block: "start" }); });
+  draw(ses[0].id);
+})();
+
+// ================= 7. LOAD & NIGGLES =================
+(() => {
+  const L7 = M.load.daily.filter(d => d.ratio != null);
+  const sec = section("Mileage jumps",
+    "The ratio of your last 7 days of miles to your typical week over the month before. Above 1.3 (shaded) means a sharp jump in load, the classic setup for overuse injuries.");
+  const W = 900, H = 260, L = 40, Rm = 16, T = 26, Bm = 30;
+  const svg = svgIn(sec, W, H, "Acute to chronic mileage ratio over time");
+  const t0 = D(DATA.window[0]).getTime(), t1 = D(DATA.window[1]).getTime();
+  const x = lin(t0, t1, L, W - Rm);
+  const hi = Math.min(3, Math.max(...L7.map(d => d.ratio)) + .1);
+  const y = lin(0, hi, H - Bm, T);
+  s("rect", { x: L, y: y(hi), width: W - L - Rm, height: y(1.3) - y(hi), fill: "var(--warn-wash)" }, svg);
+  yAxis(svg, niceTicks(0, hi, 4), y, L, W - Rm, v => v.toFixed(1) + "×");
+  s("line", { x1: L, x2: W - Rm, y1: y(1), y2: y(1), stroke: "var(--ink-3)", "stroke-width": 1 }, svg);
+  for (let d = new Date(t0); d <= t1; d.setMonth(d.getMonth() + 2)) {
+    const m = new Date(d.getFullYear(), d.getMonth(), 1);
+    if (m.getTime() >= t0) text(svg, x(m.getTime()), H - 10, m.toLocaleDateString("en-US", { month: "short", year: "2-digit" }), "lbl", "middle");
+  }
+  // Break the line where there's no ratio (not enough base after time off).
+  let pen = "M";
+  const dpath = M.load.daily.map(d => { if (d.ratio == null) { pen = "M"; return ""; } const seg = `${pen}${x(D(d.date).getTime()).toFixed(1)},${y(Math.min(d.ratio, hi)).toFixed(1)}`; pen = "L"; return seg; }).join("");
+  s("path", { d: dpath, fill: "none", stroke: "var(--ink-2)", "stroke-width": 2, "stroke-linejoin": "round" }, svg);
+  const hitLayer = s("rect", { x: L, y: T, width: W - L - Rm, height: H - T - Bm, fill: "transparent" }, svg);
+  const cross = s("line", { y1: T, y2: H - Bm, stroke: "var(--ink-3)", "stroke-width": 1, opacity: 0 }, svg);
+  hitLayer.addEventListener("pointermove", ev => {
+    const r = svg.getBoundingClientRect(), vx = (ev.clientX - r.left) * W / r.width;
+    const t = t0 + (vx - L) / (W - L - Rm) * (t1 - t0);
+    const d = L7.reduce((a, b) => Math.abs(D(b.date) - t) < Math.abs(D(a.date) - t) ? b : a);
+    cross.setAttribute("x1", x(D(d.date).getTime())); cross.setAttribute("x2", x(D(d.date).getTime())); cross.setAttribute("opacity", 1);
+    showTip(ev, `<b>${fmtDY(d.date)}</b><br>Last 7 days: ${d.last7} mi<br>Ratio ${d.ratio}×`);
+  });
+  hitLayer.addEventListener("pointerleave", () => { cross.setAttribute("opacity", 0); hideTip(); });
+  legend(sec, [{ label: "7-day ÷ typical week", color: "var(--ink-2)", line: true }, { label: "Jump zone (≥1.3×)", color: "var(--warn-wash)" }]);
+  // Biggest jumps: the peak day of each stretch above 1.3×.
+  const peaks = [];
+  let cur = null;
+  for (const d of L7) {
+    if (d.ratio >= 1.3) { if (!cur || d.ratio > cur.ratio) cur = d; }
+    else if (cur) { peaks.push(cur); cur = null; }
+  }
+  if (cur) peaks.push(cur);
+  const top = peaks.slice().sort((a, b) => b.ratio - a.ratio).slice(0, 3);
+  const jt = h("div", { class: "reptiles" }, sec);
+  h("div", { class: "reptile" }, jt, `<div class="d">Days in the jump zone</div><div class="v">${M.load.pct_days_ratio_ge_1_3}%</div><div class="b">typical ratio ${M.load.median_ratio}×</div>`);
+  for (const d of top) h("div", { class: "reptile" }, jt, `<div class="d">Big jump · ${fmtD(d.date)}</div><div class="v" style="color:var(--warn)">${d.ratio}×</div><div class="b">${d.last7} mi in 7 days</div>`);
+  if (M.blocks.length > 1) {
+    h("h4", {}, sec, "Strength + cross-training sessions a week");
+    const mxs = Math.max(...M.blocks.map(b => b.strength_per_week + b.cross_per_week), .5);
+    for (const b of M.blocks) {
+      const v = b.strength_per_week + b.cross_per_week;
+      h("div", { class: "nightrow", style: "grid-template-columns: 170px 1fr 40px" }, sec,
+        `<div class="nl">${esc(shortName(b))}</div><div style="height:10px;border-radius:5px;background:${pcol(b.key)};width:${Math.max(2, 100 * v / mxs)}%"></div><div class="nv"><b>${v.toFixed(1)}</b></div>`);
+    }
+  }
+  table(sec, ["Peak day", "Last 7 days", "Ratio"], peaks.map(d => [fmtDY(d.date), d.last7 + " mi", d.ratio + "×"]), "Show every jump");
+})();
+
+// ================= 8. CLOCK =================
+(() => {
+  const sec = section("When you run", "Every run by day of week and hour it started (local time). Bigger dot, more runs.");
+  const W = 900, H = 250, L = 46, T = 14, Rm = 10;
+  const svg = svgIn(sec, W, H, "Punchcard of run start times");
+  const cw = (W - L - Rm) / 24, rh = (H - T - 30) / 7;
+  const max = Math.max(...DATA.clock.map(c => c[2]));
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  days.forEach((d, i) => text(svg, L - 10, T + i * rh + rh / 2 + 4, d, "lbl", "end"));
+  for (let hr = 0; hr < 24; hr += 3) text(svg, L + hr * cw + cw / 2, H - 8, hr === 0 ? "12a" : hr < 12 ? `${hr}a` : hr === 12 ? "12p" : `${hr - 12}p`, "lbl", "middle");
+  for (let i = 0; i < 7; i++) s("line", { x1: L, x2: W - Rm, y1: T + i * rh + rh / 2, y2: T + i * rh + rh / 2, class: "gridline" }, svg);
+  for (const [d, hr, n] of DATA.clock) {
+    const r = Math.max(3, Math.sqrt(n / max) * Math.min(cw, rh) * .48);
+    const c = s("circle", { cx: L + hr * cw + cw / 2, cy: T + d * rh + rh / 2, r, fill: "var(--s4)", "fill-opacity": .85, stroke: "var(--surface)", "stroke-width": 2 }, svg);
+    hover(c, `<b>${days[d]}, ${hr % 12 || 12}${hr < 12 ? "am" : "pm"}</b><br>${n} run${n > 1 ? "s" : ""}`);
+  }
+  const byDay = days.map((_, i) => DATA.clock.filter(c => c[0] === i).reduce((a, c) => a + c[2], 0));
+  const byHour = Array.from({ length: 24 }, (_, i) => DATA.clock.filter(c => c[1] === i).reduce((a, c) => a + c[2], 0));
+  const topH = byHour.indexOf(Math.max(...byHour));
+  const fmtH = hr => `${hr % 12 || 12}${hr < 12 ? "am" : "pm"}`;
+  h("p", { class: "takeaway" }, sec, `<b>${days[byDay.indexOf(Math.max(...byDay))]} is your biggest running day</b> and ${days[byDay.indexOf(Math.min(...byDay))]} the quietest. The most common start time is ${fmtH(topH)}–${fmtH((topH + 1) % 24)}.`);
+})();
+
+// ================= 10. RECOVERY (Garmin API) =================
+(() => {
+  const H0 = DATA.health || {};
+  const sec = section("Recovery", "Overnight HRV, resting heart rate and sleep from Garmin, shaded by block.");
+  const metrics = [["hrv", "Overnight HRV", "ms"], ["rhr", "Resting heart rate", "bpm"], ["sleep_h", "Sleep", "h"], ["sleep_score", "Sleep score", ""],
+    ["deep_pct", "Deep sleep", "%"], ["rem_pct", "REM sleep", "%"], ["body_battery", "Body Battery daily high", ""], ["bb_charged", "Body Battery charged overnight", ""],
+    ["stress", "Average stress", ""], ["respiration", "Sleeping respiration", "brpm"], ["steps", "Steps", ""]].filter(m => H0[m[0]]);
+  if (!metrics.length) {
+    h("div", { class: "empty" }, sec, `No Garmin health data cached yet. Run <code>garmin_sync</code> through the MCP server (or <code>python3 -m garmin_mcp.sync</code>) with your Personal API key, then rebuild. HRV, resting HR, sleep, Body Battery and stress will appear here as small multiples aligned to your blocks.`);
+    return;
+  }
+  const grid = h("div", { class: "grid2" }, sec);
+  const t0 = D(DATA.window[0]).getTime(), t1 = D(DATA.window[1]).getTime();
+  for (const [key, label, unit] of metrics) {
+    const cell = h("div", {}, grid);
+    h("div", { class: "lbl-2", style: "font-size:13px;color:var(--ink-2);margin-bottom:4px" }, cell, label);
+    const series = H0[key].map(([d, v]) => [D(d).getTime(), v]);
+    const W = 420, Hh = 150, L = 36, Rm = 8, T = 8, Bm = 22;
+    const svg = svgIn(cell, W, Hh, label);
+    const x = lin(t0, t1, L, W - Rm);
+    const vs = series.map(p => p[1]), lo = Math.min(...vs), hi = Math.max(...vs);
+    const y = lin(lo, hi, Hh - Bm, T);
+    for (const p of DATA.periods.filter(p => p.key !== "Post")) s("rect", { x: x(D(p.start).getTime()), y: T, width: x(D(p.end).getTime()) - x(D(p.start).getTime()), height: Hh - T - Bm, fill: pcol(p.key), opacity: .08 }, svg);
+    yAxis(svg, niceTicks(lo, hi, 3), y, L, W - Rm);
+    // 7-day rolling mean
+    const roll = series.map((p, i) => [p[0], series.slice(Math.max(0, i - 6), i + 1).reduce((a, q) => a + q[1], 0) / Math.min(7, i + 1)]);
+    for (const p of series) s("circle", { cx: x(p[0]), cy: y(p[1]), r: 1.6, fill: "var(--ink-3)", opacity: .5 }, svg);
+    s("path", { d: roll.map((p, i) => `${i ? "L" : "M"}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(""), fill: "none", stroke: "var(--ink)", "stroke-width": 2 }, svg);
+    const hit = s("rect", { x: L, y: T, width: W - L - Rm, height: Hh - T - Bm, fill: "transparent" }, svg);
+    hit.addEventListener("pointermove", ev => {
+      const r = svg.getBoundingClientRect(), t = t0 + ((ev.clientX - r.left) * W / r.width - L) / (W - L - Rm) * (t1 - t0);
+      const p = series.reduce((a, b) => Math.abs(b[0] - t) < Math.abs(a[0] - t) ? b : a);
+      showTip(ev, `<b>${new Date(p[0]).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</b><br>${label}: ${p[1]}${unit ? " " + unit : ""}`);
+    });
+    hit.addEventListener("pointerleave", hideTip);
+  }
+})();
+
+h("footer", {}, app, `Built ${DATA.generated} from ${esc(DATA.source)} data · numbers come from <code>report/metrics.json</code>.`);
+
+// theme toggle
+const tbtn = document.getElementById("theme");
+tbtn.onclick = () => {
+  const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+};
+</script>
+</body>
+</html>
